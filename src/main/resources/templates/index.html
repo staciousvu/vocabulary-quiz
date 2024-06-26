@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vocabulary Quiz</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .quiz-card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #007bff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .result-message {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .result-message.incorrect {
+            color: #dc3545;
+        }
+        .lead{
+            text-align: center;
+            margin-top: 50px;
+            font-size: 32px;
+            color: #28a745;
+        }
+    </style>
+    <script>
+        function playSound(isCorrect) {
+            const audio = new Audio(isCorrect ? '/right.mp3' : '/wrong.mp3');
+            audio.play();
+            document.getElementById('answer').focus();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="quiz-card mx-auto">
+        <h1 class="text-center mb-4">English Vocabulary Quiz</h1>
+        <div th:if="${vocab != null}">
+            <p class="lead"><strong th:text="${vocab.vietnamese}"></strong></p>
+            <form action="/check" method="post" class="form-inline justify-content-center">
+                <input type="hidden" name="english" th:value="${vocab.english}" />
+                <div class="form-group mx-sm-3 mb-2">
+                    <input autocomplete="off" type="text" name="answer"  id="answer" class="form-control" placeholder="Your answer" required />
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Check Answer</button>
+            </form>
+            <p th:text="${message}" class="text-center mt-3 result-message" ></p>
+        </div>
+        <div th:if="${vocab == null}" class="text-center">
+            <p>No vocabulary found.</p>
+        </div>
+    </div>
+</div>
+
+<audio id="correct-sound" src="/right.mp3"></audio>
+<audio id="incorrect-sound" src="/wrong.mp3"></audio>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${message}]]*/ 'none';
+    if (message === 'Ting Ting!') {
+        playSound(true);
+    } else if (message === 'Try again!') {
+        playSound(false);
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

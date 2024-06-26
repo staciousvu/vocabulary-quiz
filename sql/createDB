@@ -1,0 +1,9 @@
+CREATE DATABASE vocabulary_db;
+
+USE vocabulary_db;
+
+CREATE TABLE vocabulary (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    english VARCHAR(255) NOT NULL,
+    vietnamese VARCHAR(255) NOT NULL
+);
